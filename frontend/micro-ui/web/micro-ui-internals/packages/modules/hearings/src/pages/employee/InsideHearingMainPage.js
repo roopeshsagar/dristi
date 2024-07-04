@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Header, ActionBar, SVG, SubmitBar, Card } from "@egovernments/digit-ui-react-components";
+import React, { useEffect, useRef, useState } from "react";
+import { ActionBar, Card } from "@egovernments/digit-ui-react-components";
 import { Button, TextArea } from "@egovernments/digit-ui-components";
 import EvidenceHearingHeader from "./EvidenceHeader";
 import HearingSideCard from "./HearingSideCard";
+import MarkAttendance from "./MarkAttendance";
 import debounce from "lodash/debounce";
 import AddParty from "./AddParty";
 import { add } from "lodash";
@@ -23,6 +24,8 @@ const InsideHearingMainPage = () => {
   const [selectedWitness, setSelectedWitness] = useState({});
   const [addPartyModal, setAddPartyModal]= useState(false);
   const textAreaRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [attendees, setAttendees] = useState([]);
   const tenantId = window?.Digit.ULBService.getCurrentTenantId();
   // const { hearingId: hearingId } = Digit.Hooks.useQueryParams(); // query paramas
   const hearingId ="HEARING-ID-2024-06-12-000029";
@@ -64,6 +67,7 @@ const InsideHearingMainPage = () => {
     !checkUserApproval("CASE_VIEWER")
   );
 
+
   useEffect(() => {
     if (latestText) {
       const hearingData = latestText?.HearingList[0];
@@ -79,15 +83,15 @@ const InsideHearingMainPage = () => {
         setOptions(processedAdditionalDetails.witnesses.map((witness) => ({ label: witness.name, value: witness.name })));
         setImmediateText(hearingData?.transcript[0]);
         setDelayedText(hearingData?.transcript[0]);
-        setSelectedWitness(processedAdditionalDetails.witnesses[0] || {});
-        setWitnessDepositionText(processedAdditionalDetails.witnesses[0]?.deposition || "");
+        setSelectedWitness(processedAdditionalDetails.witnesss[0] || {});
+        setWitnessDepositionText(processedAdditionalDetails.witnesss[0]?.deposition || "");
+        setAttendees(hearingData.attendees || []);
       }
     }
   }, [latestText]);
 
-  const handleNavigate = (path) => {
-    const contextPath = window?.contextPath || "";
-    history.push(`/${contextPath}${path}`);
+  const handleModal = () => {
+    setIsOpen(!isOpen);
   };
 
   const updateText = debounce(async (newText) => {
@@ -260,7 +264,8 @@ const InsideHearingMainPage = () => {
             <Button
               label={"Mark Attendance"}
               variation={"teritiary"}
-              onClick={() => handleNavigate("/employee/hearings/mark-attendance")}
+              onClick={handleModal}
+              // onClick={() => handleNavigate("/employee/hearings/mark-attendance")}
               style={{ width: "100%" }}
             />
           </div>
@@ -285,6 +290,14 @@ const InsideHearingMainPage = () => {
               style={{ width: "100%" }}
             />
           </div>
+          {isOpen && (
+            <MarkAttendance
+              handleModal={handleModal}
+              attendees={attendees}
+              setAttendees={setAttendees}
+              hearing={hearing}
+            />
+          )}
         </div>
       </ActionBar>
       <div>
