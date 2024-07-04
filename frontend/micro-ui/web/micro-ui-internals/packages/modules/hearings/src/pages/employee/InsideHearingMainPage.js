@@ -27,8 +27,7 @@ const InsideHearingMainPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [attendees, setAttendees] = useState([]);
   const tenantId = window?.Digit.ULBService.getCurrentTenantId();
-  // const { hearingId: hearingId } = Digit.Hooks.useQueryParams(); // query paramas
-  const hearingId ="HEARING-ID-2024-06-12-000029";
+  const { hearingId: hearingId } = Digit.Hooks.useQueryParams(); // query paramas
 
   const onCancel= ()=>{
     setAddPartyModal(false);
@@ -296,7 +295,9 @@ const InsideHearingMainPage = () => {
               attendees={attendees}
               setAttendees={setAttendees}
               hearing={hearing}
+              setAddPartyModal = {setAddPartyModal}
             />
+          
           )}
         </div>
       </ActionBar>
@@ -307,7 +308,6 @@ const InsideHearingMainPage = () => {
         hearing= {hearing} 
         tenantId={tenantId}
         hearingId={hearingId}
-        setHearing={setHearing}
         ></AddParty>}
       </div>
     </div>
