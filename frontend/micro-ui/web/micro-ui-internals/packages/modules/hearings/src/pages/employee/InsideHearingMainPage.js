@@ -83,8 +83,8 @@ const InsideHearingMainPage = () => {
         setOptions(processedAdditionalDetails.witnesses.map((witness) => ({ label: witness.name, value: witness.name })));
         setImmediateText(hearingData?.transcript[0]);
         setDelayedText(hearingData?.transcript[0]);
-        setSelectedWitness(processedAdditionalDetails.witnesss[0] || {});
-        setWitnessDepositionText(processedAdditionalDetails.witnesss[0]?.deposition || "");
+        setSelectedWitness(processedAdditionalDetails.witnesses[0] || {});
+        setWitnessDepositionText(processedAdditionalDetails.witnesses[0]?.deposition || "");
         setAttendees(hearingData.attendees || []);
       }
     }
