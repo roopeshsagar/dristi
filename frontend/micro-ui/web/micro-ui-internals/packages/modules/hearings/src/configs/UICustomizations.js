@@ -2,7 +2,7 @@ import { Link, useHistory, } from "react-router-dom";
 import React from "react";
 import _ from "lodash";
 import { Button } from "@egovernments/digit-ui-react-components";
-import OverlayDropdown from "../components/HearingOverlayDropdown";
+import OverlayDropdown from "../components/custom_dropdown";
 
 //create functions here based on module name set in mdms(eg->SearchProjectConfig)
 //how to call these -> Digit?.Customizations?.[masterName]?.[moduleName]
@@ -306,8 +306,8 @@ export const UICustomizations = {
                     alignItems: "center"
                 }}>
                 
-                  <Button variation={"secondary"} label={"Start"} onButtonClick={()=> handleNavigate('/employee/hearings/inside-hearing')}></Button>
-                  <OverlayDropdown style={{position:"absolute"}} column={column}/>
+                  <Button variation={"secondary"} label={"Start"} onButtonClick={()=> handleNavigate('/employee/hearings/inside-hearing')}></Button>,
+                  <OverlayDropdown style={{position:"absolute"}}/>
                   </div>
                 );
     
